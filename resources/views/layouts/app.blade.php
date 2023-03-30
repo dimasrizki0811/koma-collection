@@ -270,9 +270,9 @@
                                         <ul>
                                             <li class="dropdown-header">About</li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="contact.html">Contact Us</a></li>
-                                            <li><a href="about.html">About Us</a></li>
-                                            <li><a href="coming-soon.html">Coming Soon</a></li>
+                                            <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                                            <li><a href="{{ url('/about') }}">About Us</a></li>
+                                            <li><a href="{{ url('/coomingsoon') }}">Coming Soon</a></li>
                                         </ul>
                                     </div>
                                     <!-- Find -->
@@ -280,9 +280,13 @@
                                         <ul>
                                             <li class="dropdown-header">Find Us</li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="contact.html">Instagram</a></li>
-                                            <li><a href="about.html">Facebook Pages</a></li>
-                                            <li><a href="coming-soon.html">Tiktok</a></li>
+                                            <li><a href="https://instagram.com/collectionkoma?igshid=YmMyMTA2M2Y="
+                                                    target="_blank">Instagram</a>
+                                            </li>
+                                            <li><a
+                                                    href="https://www.facebook.com/profile.php?id=100084770293751&mibextid=ZbWKwL">Facebook
+                                                    Pages</a></li>
+
                                         </ul>
                                     </div>
 
@@ -294,7 +298,7 @@
                                             <li><a href="dashboard.html">How to order</a></li>
                                             <li><a href="order.html">Shipping</a></li>
                                             <li><a href="address.html">Terms & Condition</a></li>
-                                            <li><a href="faq.html">FAQ</a></li>
+                                            <li><a href="{{ url('/faq') }}">FAQ</a></li>
                                         </ul>
                                     </div>
 

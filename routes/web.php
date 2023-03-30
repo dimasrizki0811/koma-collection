@@ -31,6 +31,10 @@ Route::get('/', function () {
 });
 
 Route::get('/onsale', [HomeController::class, 'sale'])->name('onsale');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/coomingsoon', [HomeController::class, 'coomingsoon'])->name('coomingsoon');
 
 
 Route::group(['middleware' => ['auth', 'level:admin']], function () {

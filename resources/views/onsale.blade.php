@@ -265,7 +265,7 @@
                     <div class="content">
                         <h1 class="page-name">Sale</h1>
                         <ol class="breadcrumb">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ url('/') }}">Home</a></li>
                             <li class="active">sale</li>
                         </ol>
                     </div>

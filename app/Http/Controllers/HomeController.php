@@ -43,4 +43,24 @@ class HomeController extends Controller
         $onsale = Product::where('discount', 1)->get();
         return view('customer.onsale', compact('onsale'));
     }
+
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
+    public function faq()
+    {
+        return view('faq');
+    }
+
+    public function coomingsoon()
+    {
+        return view('coomingsoon');
+    }
 }
