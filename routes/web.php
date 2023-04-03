@@ -35,7 +35,8 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/coomingsoon', [HomeController::class, 'coomingsoon'])->name('coomingsoon');
-
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
+Route::get('/detail_product/{id}', [HomeController::class, 'details'])->name('detail.product');
 
 Route::group(['middleware' => ['auth', 'level:admin']], function () {
     Route::get('/dashboard', [HomeAdminController::class, 'index']);

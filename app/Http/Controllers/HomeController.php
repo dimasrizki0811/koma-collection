@@ -63,4 +63,27 @@ class HomeController extends Controller
     {
         return view('coomingsoon');
     }
+
+    public function shop(Request $request)
+    {
+        $category = $request->input('category'); // ambil input category dari URL
+
+        if ($category) {
+            $products = Product::where('category', $category)->get(); // filter data berdasarkan category
+        } else {
+            $products = Product::all();
+        }
+
+        return view('shop', [
+            'products' => $products,
+            'category' => $category // kirim category ke view untuk ditampilkan pada filter
+        ]);
+    }
+
+    public function details($id)
+    {
+        $product = Product::findOrFail($id);
+        $all = Product::orderBy('id', 'desc')->take(5)->get();
+        return view('detail_product', compact('product', 'all'));
+    }
 }

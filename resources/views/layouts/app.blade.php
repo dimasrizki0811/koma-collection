@@ -222,6 +222,11 @@
                             <a href="{{ url('/on_sale') }}">Sale</a>
                         </li>
 
+                        <!-- Shop -->
+                        <li class="dropdown ">
+                            <a href="{{ url('/shop') }}">Shop</a>
+                        </li>
+
 
                         <!-- Elements -->
                         <li class="dropdown dropdown-slide">

@@ -6,6 +6,22 @@
          <a href="{{ url('/add_product') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
              style="float: right"><i class="fas fa-plus fa-sm text-white-50"></i> Add Products</a>
          <h1 class="h3 mb-2 text-gray-800">Products</h1>
+         @if (session('success'))
+             <div class="alert alert-success text-center">
+                 <strong>{{ session('success') }}</strong>
+             </div>
+         @endif
+         @if ($errors->any())
+             <div class="alert alert-danger">
+                 <strong>Whoops!</strong> There were some problems with your
+                 input.<br><br>
+                 <ul>
+                     @foreach ($errors->all() as $error)
+                         <li>{{ $error }}</li>
+                     @endforeach
+                 </ul>
+             </div>
+         @endif
          <!-- DataTales Example -->
          <div class="card shadow mb-4">
              <div class="card-header py-3">

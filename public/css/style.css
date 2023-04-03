@@ -1466,16 +1466,28 @@ input[type=tel]:focus {
     display: inline-block;
 }
 
-.single-product-details .color-swatches .swatch-violet {
-    background-color: #8da1cd;
+.single-product-details .color-swatches .swatch-wardah {
+    background-color: #5bc5c5;
+}
+
+.single-product-details .color-swatches .swatch-olive {
+    background-color: #244719;
+}
+
+.single-product-details .color-swatches .swatch-salem {
+    background-color: #ed87b6;
+}
+
+.single-product-details .color-swatches .swatch-teracotta {
+    background-color: #e36735;
 }
 
 .single-product-details .color-swatches .swatch-black {
     background-color: #000;
 }
 
-.single-product-details .color-swatches .swatch-cream {
-    background-color: #e6e2d6;
+.single-product-details .color-swatches .swatch-bw {
+    background-color: #ededed;
 }
 
 .single-product-details .product-size {
