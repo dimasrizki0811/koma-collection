@@ -130,9 +130,9 @@
 
         // input kedalam database //
         function calculateTotal() {
-            let productName = <?php echo $productName; ?>;
-            let productQuantity = <?php echo $productQuantity; ?>;
-            let productPrice = <?php echo $productPrice; ?>;
+            let productName = <?php echo $details->name; ?>;
+            let productQuantity = <?php echo $details->totalQuantity; ?>;
+            let productPrice = <?php echo $details->price; ?>;
             let name = $('#name').val();
             let email = $('#email').val();
             let phone = $('#phone').val();
