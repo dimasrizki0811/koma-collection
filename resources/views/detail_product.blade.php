@@ -64,25 +64,10 @@
                             <!-- thumb -->
                             <ol class='carousel-indicators mCustomScrollbar meartlab'>
                                 <li data-target='#carousel-custom' data-slide-to='0' class='active'>
-                                    <img src='{{ asset('storage/product/' . $product->images) }}' alt='' />
+                                    <img src="{{ asset('storage/product/' . $product->images) }}" alt='' />
                                 </li>
                                 <li data-target='#carousel-custom' data-slide-to='1'>
-                                    <img src='images/shop/single-products/product-2.jpg' alt='' />
-                                </li>
-                                <li data-target='#carousel-custom' data-slide-to='2'>
-                                    <img src='images/shop/single-products/product-3.jpg' alt='' />
-                                </li>
-                                <li data-target='#carousel-custom' data-slide-to='3'>
-                                    <img src='images/shop/single-products/product-4.jpg' alt='' />
-                                </li>
-                                <li data-target='#carousel-custom' data-slide-to='4'>
-                                    <img src='images/shop/single-products/product-5.jpg' alt='' />
-                                </li>
-                                <li data-target='#carousel-custom' data-slide-to='5'>
-                                    <img src='images/shop/single-products/product-6.jpg' alt='' />
-                                </li>
-                                <li data-target='#carousel-custom' data-slide-to='6'>
-                                    <img src='images/shop/single-products/product-7.jpg' alt='' />
+                                    <img src="{{ asset('storage/product/' . $product->images) }}" alt='' />
                                 </li>
                             </ol>
                         </div>
@@ -91,30 +76,34 @@
                 <div class="col-md-7">
                     <div class="single-product-details">
                         <h2>{{ $product->name }}</h2>
-                        <p class="product-price">IDR {{ number_format($product->price) }}</p>
-
+                        @if ($product->discount == 1)
+                            <h3 class="product-price">IDR {{ number_format($product->price - $product->discount_price) }}
+                            </h3>
+                        @else
+                            <h3 class="product-price">IDR {{ number_format($product->price) }}</h3>
+                        @endif
                         <p class="product-description mt-20">
                             {{ $product->description }}</p>
                         <div class="color-swatches">
                             <span>color:</span>
                             <ul>
                                 <li>
-                                    <a href="#" class="swatch-olive" title="Olive"></a>
+                                    <a href="#" class="swatch-olive" title="Olive" data-color="olive"></a>
                                 </li>
                                 <li>
-                                    <a href="#!" class="swatch-black" title="Black"></a>
+                                    <a href="#!" class="swatch-black" title="Black" data-color="black"></a>
                                 </li>
                                 <li>
-                                    <a href="#!" class="swatch-bw" title="Broken White"></a>
+                                    <a href="#!" class="swatch-bw" title="Broken White" data-color="brokenwhite"></a>
                                 </li>
                                 <li>
-                                    <a href="#!" class="swatch-salem" title="Salem"></a>
+                                    <a href="#!" class="swatch-salem" title="Salem" data-color="salem"></a>
                                 </li>
                                 <li>
-                                    <a href="#!" class="swatch-teracotta" title="Teracotta"></a>
+                                    <a href="#!" class="swatch-teracotta" title="Teracotta" data-color="teracotta"></a>
                                 </li>
                                 <li>
-                                    <a href="#!" class="swatch-wardah" title="Wardah"></a>
+                                    <a href="#!" class="swatch-wardah" title="Wardah" data-color="wardah"></a>
                                 </li>
                             </ul>
                         </div>
@@ -124,12 +113,12 @@
                                 <option value="all_size">All Size</option>
                             </select>
                         </div>
-                        <div class="product-quantity">
+                        {{-- <div class="product-quantity">
                             <span>Quantity:</span>
                             <div class="product-quantity-slider">
                                 <input id="product-quantity" type="text" value="0" name="product-quantity">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="product-category">
                             <span>Categories:</span>
                             <ul>

@@ -221,13 +221,6 @@
                         <li class="dropdown ">
                             <a href="{{ url('/on_sale') }}">Sale</a>
                         </li>
-
-                        <!-- Shop -->
-                        <li class="dropdown ">
-                            <a href="{{ url('/shop') }}">Shop</a>
-                        </li>
-
-
                         <!-- Elements -->
                         <li class="dropdown dropdown-slide">
                             <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
@@ -240,9 +233,9 @@
                                         <ul>
                                             <li class="dropdown-header">Top Women</li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="shop.html">Blouse</a></li>
-                                            <li><a href="checkout.html">Tunik</a></li>
-                                            <li><a href="cart.html">Kemeja</a></li>
+                                            <li><a href="{{ url('/shop') }}">Blouse</a></li>
+                                            <li><a href="{{ url('/shop') }}">Tunik</a></li>
+                                            <li><a href="{{ url('/shop') }}">Kemeja</a></li>
                                         </ul>
                                     </div>
 

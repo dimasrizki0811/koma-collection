@@ -22,7 +22,9 @@
                     <div class="col-md-4">
                         <div class="product-item">
                             <div class="product-thumb">
-                                <span class="bage">Sale</span>
+                                @if ($data->discount == 1)
+                                    <span class="bage">Sale</span>
+                                @endif
                                 <img class="img-responsive" src="{{ asset('storage/product/' . $data->images) }}"
                                     alt="product-img" />
                                 <div class="preview-meta">
@@ -77,7 +79,9 @@
                                                 </p>
                                                 <a href="{{ route('store', $data->id) }}" class="btn btn-main">Add
                                                     To Cart</a>
-                                                <a href="product-single.html" class="btn btn-transparent">View Product
+                                                <a href="{{ route('detail.product', $data->id) }}"
+                                                    class="btn btn-main">View
+                                                    Product
                                                     Details</a>
                                             </div>
                                         </div>
