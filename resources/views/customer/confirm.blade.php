@@ -129,45 +129,6 @@
         }
 
         // input kedalam database //
-        function calculateTotal() {
-            let productName = <?php echo $details->name; ?>;
-            let productQuantity = <?php echo $details->totalQuantity; ?>;
-            let productPrice = <?php echo $details->price; ?>;
-            let name = $('#name').val();
-            let email = $('#email').val();
-            let phone = $('#phone').val();
-            let address = $('#address').val();
-            let code = "<?php echo $code; ?>";
-            let service = "<?php echo $service; ?>";
-            let cost = <?php echo $cost; ?>;
-            let subtotal = productQuantity * productPrice;
-            let total = subtotal + cost;
-
-            $('#productName').text(productName);
-            $('#productQuantity').text(productQuantity);
-            $('#productPrice').text(productPrice.toLocaleString('id-ID'));
-            $('#code').text(code);
-            $('#service').text(service);
-            $('#cost').text(cost.toLocaleString('id-ID'));
-            $('#subtotal').text(subtotal.toLocaleString('id-ID'));
-            $('#shippingCost').text(cost.toLocaleString('id-ID'));
-            $('#totalPrice').text(total.toLocaleString('id-ID'));
-
-            return {
-                productName: productName,
-                productQuantity: productQuantity,
-                productPrice: productPrice,
-                name: name,
-                email: email,
-                phone: phone,
-                address: address,
-                code: code,
-                service: service,
-                cost: cost,
-                subtotal: subtotal,
-                total: total
-            };
-        }
     </script>
 
 @endsection
