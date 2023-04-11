@@ -41,29 +41,30 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $order = new Order;
-        $order->country = $request->input('country');
-        $order->origin = $request->input('origin');
         $order->name = $request->input('name');
-        $order->phone_number = $request->input('phone_number');
+        $order->email = $request->input('email');
+        $order->phone = $request->input('phone');
         $order->address = $request->input('address');
-        $order->kecamatan = $request->input('kecamatan');
-        $order->city = $request->input('city');
-        $order->province = $request->input('province');
-        $order->destination = $request->input('destination');
-        $order->product_id = $request->input('product_id');
-        $order->user_id = $request->input('user_id');
-        $order->quantity = $request->input('quantity');
-        $order->weight = $request->input('weight');
-        $order->total = $request->input('total');
-        $order->delivery = $request->input('delivery');
+        $order->id = $request->input('id_produk');
+        $order->nama_produk = $request->input('nama_produk');
+        $order->jumlah = $request->input('jumlah');
+        $order->harga = $request->input('harga');
+        $order->size = $request->input('size');
+        $order->shipping = $request->input('shipping');
+        $order->shipping_cost = $request->input('shipping_cost');
+        $order->code = $request->input('code');
+        $order->subtotal = $request->input('subtotal');
+        $order->totalPrice = $request->input('totalPrice');
         $order->status = $request->input('status');
         $order->save();
-        return redirect('/cekongkir')->with('success', 'Product has been added');
+
+        return view('/checkout')->with('succes', 'Data succes input');
     }
 
     public function confirm()
     {
         $cart = session()->get('cart');
-        return view('customer.confirm', compact('cart'));
+        $produk = Product::all();
+        return view('customer.confirm', compact('cart', 'produk'));
     }
 }

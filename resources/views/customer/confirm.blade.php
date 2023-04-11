@@ -8,7 +8,7 @@
                 <div class="col-md-7">
                     <div class="block billing-details">
                         <h4 class="widget-title">Information Details</h4>
-                        <form action="" method="POST" class="checkout-form">
+                        <form action="{{ route('store.checkout') }}" method="POST" class="checkout-form">
                             @csrf
                             @method('POST')
                             <div class="form-group">
@@ -53,38 +53,58 @@
                                             <div class="media-body">
                                                 <img src="{{ asset('storage/product/' . $details['images']) }}"
                                                     alt="" class="media-object" style="float: right">
+
+                                                <input type="hidden" name="id_produk[]" value="{{ $id }}">
+
                                                 <h5>
-                                                    <span id="productName">{{ $details['name'] }}</span>
+                                                    <span id="productName">{{ $details['name'] }}</span> <input
+                                                        type="hidden" name="nama_produk[{{ $id }}]"
+                                                        value="{{ $details['name'] }}">
                                                 </h5>
                                                 <p class="price" id="productQuantity">{{ $details['quantity'] }} Pcs</p>
+                                                <input type="hidden" name="jumlah[{{ $id }}]"
+                                                    value="{{ $details['quantity'] }}">
                                                 <p class="price" id="productPrice">IDR
                                                     {{ number_format($details['price']) }}</p>
+                                                <input type="hidden" name="harga[{{ $id }}]"
+                                                    value="{{ $details['price'] }}">
+                                                <input type="hidden" name="size[{{ $id }}]"
+                                                    value="{{ $details['size'] }}">
+
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
-                            <input type="hidden" name="name" id="name">
-                            <input type="hidden" name="email" id="email">
-                            <input type="hidden" name="phone" id="phone">
-                            <input type="hidden" name="alamat" id="alamat">
+                            <input type="hidden" name="name" id="name" value="{{ Auth::user()->name }}">
+                            <input type="hidden" name="email" id="email" value="{{ Auth::user()->email }}">
+                            <input type="hidden" name="phone" id="phone" value="{{ Auth::user()->phone }}">
+                            <input type="hidden" name="address" id="address" value="{{ Auth::user()->address }}">
                             <div class="discount-code">
+                                <span>Total quantity : {{ $totalQuantity }} Pcs</span>
                             </div>
                             <ul class="summary-prices">
                                 <li>
                                     <span>Subtotal:</span>
-                                    <span class="price" id="subtotal">IDR {{ number_format($total) }}</span>
+                                    <span class="price" id="subtotal">IDR {{ number_format($total) }}</span> <input
+                                        type="hidden" name="subtotal" value="{{ $total }}">
                                 </li>
+                                <input type="hidden" name="shipping" value="JNE">
+                                <input type="hidden" name="code" value="YES">
                                 <li>
                                     <span>Shipping:</span>
                                     <span id="shippingCost">0</span>
+                                    <input type="hidden" name="shipping_cost" id="shippingCostInput" value="10000">
+
                                 </li>
                             </ul>
                             <div class="summary-total">
                                 <span for="total">Total</span>
                                 <span id="totalPrice">0</span>
+                                <input type="hidden" name="totalPrice" value="4000000">
                             </div>
                         </div>
+                        <input type="hidden" name="status" value="open">
                         <button class="btn btn-main mt-20 btn-check" id="submitBtn">Continue to Payment</button>
                         </form>
                     </div>
@@ -114,8 +134,9 @@
 
         // mengambil data shipping dan memasukan kedalam form //
         function get() {
-            let selectedCost = $('input[name="shipping"]:checked').data('cost');
+            let selectedCost = $('input[name="shipping_cost"]:checked').data('cost');
             $('#shippingCost').text('IDR. ' + selectedCost);
+            $('#shippingCostInput').val(selectedCost);
         }
 
         // hitung total harga //
@@ -127,8 +148,6 @@
             $('#shippingCost').text('IDR ' + shippingCost.toLocaleString('id-ID'));
             $('#totalPrice').text('IDR ' + total.toLocaleString('id-ID'));
         }
-
-        // input kedalam database //
     </script>
 
 @endsection
