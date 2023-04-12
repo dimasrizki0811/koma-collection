@@ -1,3 +1,9 @@
+<style>
+    .btn {
+        height: 40px;
+        width: 20px;
+    }
+</style>
 @extends('layouts.app')
 @section('content')
     <section class="page-header">
@@ -35,7 +41,12 @@
                                             </span>
                                         </li>
                                         <li>
-                                            <a href=""><i class="tf-ion-ios-heart"></i></a>
+                                            <form action="{{ route('wishlist.store', $data->id) }}" method="post">
+                                                @csrf
+                                                <!-- Tambahkan token CSRF untuk keamanan -->
+                                                <button type="submit" class="btn"><i
+                                                        class="tf-ion-ios-heart"></i></button>
+                                            </form>
                                         </li>
                                         <li>
                                             <a href="{{ route('store', $data->id) }}"><i

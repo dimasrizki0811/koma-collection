@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\WishList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -85,4 +86,7 @@ class CartController extends Controller
         }
         return redirect()->back()->with('success', 'Product removed from cart successfully!');
     }
+
+    // Wishlist //
+
 }

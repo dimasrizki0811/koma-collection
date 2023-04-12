@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeAdminController;
 use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\WishListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,4 +67,7 @@ Route::group(['middleware' => ['auth', 'level:user']], function () {
     Route::get('/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
     Route::get('/detail_product/{id}', [HomeController::class, 'details'])->name('detail.product');
     Route::post('/checkout', [OrderController::class, 'store'])->name('store.checkout');
+    Route::get('/wishlist', [WishListController::class, 'index'])->name('wishlist.index');
+    Route::post('/add_wishlist/{id}', [WishListController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist/{id}', [WishListController::class, 'destroy'])->name('wishlist.delete');
 });

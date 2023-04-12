@@ -144,6 +144,9 @@
                     </ul>
                 </div>
                 </li><!-- / Cart -->
+                <li>
+                    <a href="{{ url('/wishlist') }}" title="wishlist"><i class="tf-ion-ios-heart"></i></a>
+                </li>
 
                 <!-- Search -->
                 <li class="dropdown search dropdown-slide">
