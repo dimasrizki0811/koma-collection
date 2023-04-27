@@ -9,7 +9,11 @@
                         <ol class="breadcrumb">
                             <li><a href="{{ url('/customer') }}">Home</a></li>
                             <li class="active">shop</li>
-                        </ol>
+                            @if (session('success'))
+                                <div class="alert alert-success text-center">
+                                    <strong>{{ session('success') }}</strong>
+                                </div>
+                            @endif
                     </div>
                 </div>
             </div>
@@ -119,7 +123,18 @@
                                                     </span>
                                                 </li>
                                                 <li>
-                                                    <a href="#!"><i class="tf-ion-ios-heart"></i></a>
+                                                    <a href="{{ route('wishlist.store', $item->id) }}" class="btn-btn"
+                                                        onclick="event.preventDefault();
+                                                                     if(confirm('Masukan product kedalam wishlist ?')){
+                                                                       document.getElementById('store-form-{{ $item->id }}').submit();
+                                                                     }">
+                                                        <i class="tf-ion-ios-heart"></i>
+                                                    </a>
+                                                    <form id="store-form-{{ $item->id }}"
+                                                        action="{{ route('wishlist.store', $item->id) }}" method="POST"
+                                                        style="display: none;">
+                                                        @csrf
+                                                    </form>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('store', $item->id) }}"><i
@@ -129,7 +144,8 @@
                                         </div>
                                     </div>
                                     <div class="product-content">
-                                        <h4><a href="{{ route('detail.product', $item->id) }}">{{ $item->name }}</a></h4>
+                                        <h4><a href="{{ route('detail.product', $item->id) }}">{{ $item->name }}</a>
+                                        </h4>
                                         @if ($item->discount == 1)
                                             <p class="price">IDR <s>{{ number_format($item->price) }}</s></p>
                                         @else

@@ -33,23 +33,6 @@
                                             data-zoom-image="images/shop/single-products/product-2.jpg" />
                                     </div>
 
-                                    <div class='item'>
-                                        <img src='images/shop/single-products/product-3.jpg' alt=''
-                                            data-zoom-image="images/shop/single-products/product-3.jpg" />
-                                    </div>
-                                    <div class='item'>
-                                        <img src='images/shop/single-products/product-4.jpg' alt=''
-                                            data-zoom-image="images/shop/single-products/product-4.jpg" />
-                                    </div>
-                                    <div class='item'>
-                                        <img src='images/shop/single-products/product-5.jpg' alt=''
-                                            data-zoom-image="images/shop/single-products/product-5.jpg" />
-                                    </div>
-                                    <div class='item'>
-                                        <img src='images/shop/single-products/product-6.jpg' alt=''
-                                            data-zoom-image="images/shop/single-products/product-6.jpg" />
-                                    </div>
-
                                 </div>
 
                                 <!-- sag sol -->
@@ -122,10 +105,10 @@
                         <div class="product-category">
                             <span>Categories:</span>
                             <ul>
-                                <li><a href="{{ url('/shop') }}">{{ strtoupper($product->category) }}</a></li>
+                                <li>{{ strtoupper($product->category) }}</li>
                             </ul>
                         </div>
-                        <a href="cart.html" class="btn btn-main mt-20">Add To Cart</a>
+                        <a href="{{ url('/add-to-cart', $product->id) }}" class="btn btn-main mt-20">Add To Cart</a>
                     </div>
                 </div>
             </div>

@@ -101,7 +101,7 @@
                             <div class="summary-total">
                                 <span for="total">Total</span>
                                 <span id="totalPrice">0</span>
-                                <input type="hidden" name="totalPrice" value="4000000">
+                                <input type="hidden" name="totalPrice" id="totalPrice">
                             </div>
                         </div>
                         <input type="hidden" name="status" value="open">

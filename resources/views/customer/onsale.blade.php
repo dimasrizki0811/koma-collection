@@ -1,7 +1,8 @@
 <style>
     .btn {
-        height: 40px;
-        width: 20px;
+        height: 45px;
+        width: 45px;
+        background: white;
     }
 </style>
 @extends('layouts.app')
@@ -41,11 +42,19 @@
                                             </span>
                                         </li>
                                         <li>
-                                            <form action="{{ route('wishlist.store', $data->id) }}" method="post">
+                                            <a href="{{ route('wishlist.store', $data->id) }}" class="btn-btn"
+                                                onclick="event.preventDefault();
+                                                             if(confirm('Masukan product kedalam wishlist ?')){
+                                                               document.getElementById('store-form-{{ $data->id }}').submit();
+                                                             }">
+                                                <i class="tf-ion-ios-heart"></i>
+                                            </a>
+
+                                            <!-- Form untuk method DELETE -->
+                                            <form id="store-form-{{ $data->id }}"
+                                                action="{{ route('wishlist.store', $data->id) }}" method="POST"
+                                                style="display: none;">
                                                 @csrf
-                                                <!-- Tambahkan token CSRF untuk keamanan -->
-                                                <button type="submit" class="btn"><i
-                                                        class="tf-ion-ios-heart"></i></button>
                                             </form>
                                         </li>
                                         <li>

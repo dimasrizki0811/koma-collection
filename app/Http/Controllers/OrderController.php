@@ -56,7 +56,7 @@ class OrderController extends Controller
         $order->subtotal = $request->input('subtotal');
         $order->totalPrice = $request->input('totalPrice');
         $order->status = $request->input('status');
-        $order->save();
+        dd($order);
 
         return view('/checkout')->with('succes', 'Data succes input');
     }

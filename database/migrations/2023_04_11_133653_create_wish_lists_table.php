@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('name');
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
-            $table->decimal('discount', 10, 2);
             $table->text('images');
             $table->string('size');
             $table->integer('berat');

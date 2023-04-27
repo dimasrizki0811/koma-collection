@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Wishlist extends Model
 {
     protected $fillable = [
-        'user_id', 'product_id', 'name', 'quantity', 'price', 'discount', 'images', 'size', 'berat'
+        'user_id', 'product_id', 'name', 'quantity', 'price', 'images', 'size', 'berat'
     ];
 
     public function user()

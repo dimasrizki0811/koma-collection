@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth'); // Middleware untuk memastikan pengguna sudah login
-    }
-
     /**
      * Menampilkan daftar wishlist.
      *
@@ -41,17 +35,25 @@ class WishlistController extends Controller
         $product = Product::find($id);
 
         // Proses simpan data wishlist ke dalam database
-        $wishlist = new WishList();
-        $wishlist->user_id = Auth::id();
-        $wishlist->product_id = $product->id;
+        $wishlist = WishList::FirstOrNew([
+            'user_id' => Auth::id(),
+            'product_id' => $product->id
+        ]);
         $wishlist->name = $product->name;
         // Set atribut-atribut lainnya sesuai kebutuhan
         $wishlist->quantity = 1;
-        $wishlist->price = $product->price - $product->discount_price;
-        $wishlist->discount = $product->discount;
+        // Cek nilai diskon pada produk
+        if ($product->discount == 1) {
+            // Jika diskon = 1, gunakan harga promo
+            $wishlist->price = $product->price - $product->discount_price;
+        } else {
+            // Jika diskon = 0, gunakan harga normal
+            $wishlist->price = $product->price;
+        }
         $wishlist->images = $product->images;
         $wishlist->size = $product->size;
         $wishlist->berat = $product->berat;
+
         $wishlist->save();
         return redirect()->back()->with('success', 'Product added to wishlist successfully!');
     }
@@ -68,9 +70,8 @@ class WishlistController extends Controller
     {
         $wishlist = WishList::findOrFail($id);
         $wishlist->delete();
-        return redirect()->back()->with('success', 'Wishlist berhasil dihapus.');
+        return redirect()->route('wishlist.index')->with('success', 'Wishlist successfully deleted.');
     }
-
     /**
      * Menampilkan halaman edit wishlist.
      *
