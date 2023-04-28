@@ -5,6 +5,17 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center mb-5">Checkout Page</h2>
+                <?php
+                session_start();
+                
+                if (isset($_SESSION['myData'])) {
+                    $myData = json_decode($_SESSION['myData'], true);
+                    echo 'Data saya: ' . $myData['nama'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
+                } else {
+                    echo 'Data tidak tersedia';
+                }
+                ?>
+
                 <div class="col-md-7">
                     <div class="block billing-details">
                         <h4 class="widget-title">Information Details</h4>
@@ -148,6 +159,19 @@
             $('#shippingCost').text('IDR ' + shippingCost.toLocaleString('id-ID'));
             $('#totalPrice').text('IDR ' + total.toLocaleString('id-ID'));
         }
+
+        // Mendapatkan nilai dari session storage
+        let country = sessionStorage.getItem('country');
+        let name = sessionStorage.getItem('name');
+        let no_tlp = sessionStorage.getItem('no_tlp');
+        let alamat = sessionStorage.getItem('alamat');
+        let kecamatan = sessionStorage.getItem('kecamatan');
+        let kode_pos = sessionStorage.getItem('kode_pos');
+        let city_origin = sessionStorage.getItem('city_origin');
+        let province_destination = sessionStorage.getItem('province_destination');
+        let city_destination = sessionStorage.getItem('city_destination');
+        let courier = sessionStorage.getItem('courier');
+        let weight = sessionStorage.getItem('weight');
     </script>
 
 @endsection

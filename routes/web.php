@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth', 'level:user']], function () {
     Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.index');
     Route::get('/checkout', [OrderController::class, 'index'])->name('customer.checkout');
+    Route::post('/add_order', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/checkout/{province_id}', [OrderController::class, 'getCities']);
     Route::post('/ongkir', [OrderController::class, 'check_ongkir']);
     Route::get('/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');

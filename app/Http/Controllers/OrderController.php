@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Cart;
+use App\Models\City;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Kavist\RajaOngkir\Facades\RajaOngkir;
 use App\Models\Province;
-use App\Models\City;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Kavist\RajaOngkir\Facades\RajaOngkir;
 
 
 class OrderController extends Controller
@@ -40,25 +43,43 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $order = new Order;
-        $order->name = $request->input('name');
-        $order->email = $request->input('email');
-        $order->phone = $request->input('phone');
-        $order->address = $request->input('address');
-        $order->id = $request->input('id_produk');
-        $order->nama_produk = $request->input('nama_produk');
-        $order->jumlah = $request->input('jumlah');
-        $order->harga = $request->input('harga');
-        $order->size = $request->input('size');
-        $order->shipping = $request->input('shipping');
-        $order->shipping_cost = $request->input('shipping_cost');
-        $order->code = $request->input('code');
-        $order->subtotal = $request->input('subtotal');
-        $order->totalPrice = $request->input('totalPrice');
-        $order->status = $request->input('status');
-        dd($order);
+        // validasi input
+        $validated = $request->validate([
+            'country' => 'required|string',
+            'name' => 'required|string|max:255',
+            'no_tlp' => 'required|string|max:20|min:8',
+            'alamat' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|string|max:20',
+            'city_origin' => 'required',
+            'province_destination' => 'required',
+            'city_destination' => 'required',
+            'courier' => 'required',
+        ]);
 
-        return view('/checkout')->with('succes', 'Data succes input');
+        // mengambil id user yang sedang login
+        $user_id = Auth::id();
+
+        // menyimpan data order ke dalam session
+        $order = [
+            'country' => $validated['country'],
+            'name' => $validated['name'],
+            'no_tlp' => $validated['no_tlp'],
+            'alamat' => $validated['alamat'],
+            'kecamatan' => $validated['kecamatan'],
+            'kode_pos' => $validated['kode_pos'],
+            'user_id' => $user_id,
+            'city_origin' => $validated['city_origin'],
+            'province_destination' => $validated['province_destination'],
+            'city_destination' => $validated['city_destination'],
+            'courier' => $validated['courier'],
+        ];
+
+        dd($order);
+        // Session::push('orders', $order);
+
+        // redirect ke halaman lain atau melakukan operasi lain
+        return redirect()->route('orders.confirm')->with('success', 'Berhasil memasukan data !');
     }
 
     public function confirm()
