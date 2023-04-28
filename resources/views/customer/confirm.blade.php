@@ -10,7 +10,7 @@
                 
                 if (isset($_SESSION['myData'])) {
                     $myData = json_decode($_SESSION['myData'], true);
-                    echo 'Data saya: ' . $myData['nama'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
+                    echo 'Data saya: ' . $myData['name'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
                 } else {
                     echo 'Data tidak tersedia';
                 }
