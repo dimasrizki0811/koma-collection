@@ -263,9 +263,11 @@
                     <p style="color: #FEFCF3; font-size: 16px">KLAIM GRATIS ONGKIR PERTAMAMU.</p>
                 </div>
                 <div class="col-lg-6 col-md-offset-3">
-                    <div class="input-group subscription-form text-center" style="width: 278px">
+                    <div class="input-group subscription-form" style="width: 278.5px; text-align: center;">
                         <input type="text" class="form-control" placeholder="Enter Your Email Address">
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-offset-3 text-center">
                     <div class="input-group subscription-form">
                         <span class="input-group-btn">
                             <button class="btn btn-main" type="button">Subscribe

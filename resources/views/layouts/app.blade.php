@@ -89,8 +89,18 @@
                     <!-- Cart -->
                     <ul class="top-menu text-right list-inline">
                         <li class="dropdown cart-nav dropdown-slide">
-                            <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown"><i
-                                    class="fa fa-shopping-cart">{{ count((array) session('cart')) }}</i></a>
+                            @if (null !== session('cart') && count((array) session('cart')) > 0)
+                                <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown">
+                                    <i class="fa fa-shopping-cart"><span
+                                            style="font-size: 12px; color: black;">{{ count((array) session('cart')) }}</span></i>
+                                </a>
+                            @else
+                                <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown"><i
+                                        class="fa fa-shopping-cart"></i></a>
+                            @endif
+
+
+
                             <div class="dropdown-menu cart-dropdown">
                                 <!-- Cart Item -->
 

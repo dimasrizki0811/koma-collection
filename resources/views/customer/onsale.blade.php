@@ -1,10 +1,3 @@
-<style>
-    .btn {
-        height: 45px;
-        width: 45px;
-        background: white;
-    }
-</style>
 @extends('layouts.app')
 @section('content')
     <section class="page-header">
