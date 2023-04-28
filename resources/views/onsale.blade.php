@@ -327,7 +327,8 @@
                                                 <p class="product-short-description">
                                                     {{ $data->description }}
                                                 </p>
-                                                <a href="product-single.html" class="btn btn-transparent">View Product
+                                                <a href="{{ route('detail.product', $data->id) }}"
+                                                    class="btn btn-main">View Product
                                                     Details</a>
                                             </div>
                                         </div>

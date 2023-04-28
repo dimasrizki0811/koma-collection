@@ -5,10 +5,21 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center mb-5">Checkout Page</h2>
+                <?php
+                session_start();
+                
+                if (isset($_SESSION['myData'])) {
+                    $myData = json_decode($_SESSION['myData'], true);
+                    echo 'Data saya: ' . $myData['name'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
+                } else {
+                    echo 'Data tidak tersedia';
+                }
+                ?>
+
                 <div class="col-md-7">
                     <div class="block billing-details">
                         <h4 class="widget-title">Information Details</h4>
-                        <form action="" method="POST" class="checkout-form">
+                        <form action="{{ route('store.checkout') }}" method="POST" class="checkout-form">
                             @csrf
                             @method('POST')
                             <div class="form-group">
@@ -28,7 +39,6 @@
                         <h4>Choose Shipping Method</h4>
                         <div class="card-body">
                             <ul class="list-group">
-
                                 <div for="" id="ongkir"></div>
                             </ul>
                         </div>
@@ -54,35 +64,59 @@
                                             <div class="media-body">
                                                 <img src="{{ asset('storage/product/' . $details['images']) }}"
                                                     alt="" class="media-object" style="float: right">
+
+                                                <input type="hidden" name="id_produk[]" value="{{ $id }}">
+
                                                 <h5>
-                                                    {{ $details['name'] }}
+                                                    <span id="productName">{{ $details['name'] }}</span> <input
+                                                        type="hidden" name="nama_produk[{{ $id }}]"
+                                                        value="{{ $details['name'] }}">
                                                 </h5>
-                                                <p class="price">{{ $details['quantity'] }} Pcs</p>
-                                                <p class="price">IDR {{ number_format($details['price']) }}</p>
+                                                <p class="price" id="productQuantity">{{ $details['quantity'] }} Pcs</p>
+                                                <input type="hidden" name="jumlah[{{ $id }}]"
+                                                    value="{{ $details['quantity'] }}">
+                                                <p class="price" id="productPrice">IDR
+                                                    {{ number_format($details['price']) }}</p>
+                                                <input type="hidden" name="harga[{{ $id }}]"
+                                                    value="{{ $details['price'] }}">
+                                                <input type="hidden" name="size[{{ $id }}]"
+                                                    value="{{ $details['size'] }}">
+
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
+                            <input type="hidden" name="name" id="name" value="{{ Auth::user()->name }}">
+                            <input type="hidden" name="email" id="email" value="{{ Auth::user()->email }}">
+                            <input type="hidden" name="phone" id="phone" value="{{ Auth::user()->phone }}">
+                            <input type="hidden" name="address" id="address" value="{{ Auth::user()->address }}">
                             <div class="discount-code">
-
+                                <span>Total quantity : {{ $totalQuantity }} Pcs</span>
                             </div>
                             <ul class="summary-prices">
                                 <li>
                                     <span>Subtotal:</span>
-                                    <span class="price">IDR {{ number_format($total) }}</span>
+                                    <span class="price" id="subtotal">IDR {{ number_format($total) }}</span> <input
+                                        type="hidden" name="subtotal" value="{{ $total }}">
                                 </li>
+                                <input type="hidden" name="shipping" value="JNE">
+                                <input type="hidden" name="code" value="YES">
                                 <li>
                                     <span>Shipping:</span>
-                                    <span id="shipping"></span>
+                                    <span id="shippingCost">0</span>
+                                    <input type="hidden" name="shipping_cost" id="shippingCostInput" value="10000">
+
                                 </li>
                             </ul>
                             <div class="summary-total">
-                                <span>Total</span>
-                                <span>IDR {{ number_format($total) }}</span>
+                                <span for="total">Total</span>
+                                <span id="totalPrice">0</span>
+                                <input type="hidden" name="totalPrice" id="totalPrice">
                             </div>
                         </div>
-                        <button class="btn btn-main mt-20 btn-check">Continue to Payment</button>
+                        <input type="hidden" name="status" value="open">
+                        <button class="btn btn-main mt-20 btn-check" id="submitBtn">Continue to Payment</button>
                         </form>
                     </div>
                 </div>
@@ -90,27 +124,54 @@
         </div>
     </section><!-- /.page-warpper -->
     <!-- AJAX ONGKIR                                                                                                  -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
+        // mengambil data hitung ongkir dari halaman sebelumnya yaitu checkout //
         let ongkirData = JSON.parse(localStorage.getItem('ongkirData'));
         if (ongkirData) {
             for (let i = 0; i < ongkirData.length; i++) {
-                $('#ongkir').append('<input type="radio" onchange="get()" value="' + ongkirData[i].cost +
-                    '" class="list-group-item">' +
-                    ongkirData[i].code + ' : <strong>' +
-                    ongkirData[i].service + '</strong> - Rp. ' + ongkirData[i].cost +
-                    ' (' + ongkirData[i].etd + ' hari)');
-
+                $('#ongkir').append('<input type="radio" name="shipping" onchange="calculateTotal()" value="' + ongkirData[
+                        i]
+                    .cost +
+                    '" data-cost="' + ongkirData[i].cost + '" class="list-group-item">' + ongkirData[i].code +
+                    ' : <strong>' + ongkirData[i].service + '</strong> - Rp. ' + ongkirData[i].cost + ' (' + ongkirData[
+                        i].etd + ' hari)');
             }
         }
 
+        // mengambil data shipping dan memasukan kedalam form //
         function get() {
-            const shipp = document.getElementById('shipping');
-            shipp.val();
+            let selectedCost = $('input[name="shipping_cost"]:checked').data('cost');
+            $('#shippingCost').text('IDR. ' + selectedCost);
+            $('#shippingCostInput').val(selectedCost);
         }
+
+        // hitung total harga //
+        function calculateTotal() {
+            let subtotal = <?php echo $total; ?>;
+            let shippingCost = parseFloat($('input[name="shipping"]:checked').val());
+            let total = subtotal + shippingCost;
+            $('#subtotal').text('IDR ' + subtotal.toLocaleString('id-ID'));
+            $('#shippingCost').text('IDR ' + shippingCost.toLocaleString('id-ID'));
+            $('#totalPrice').text('IDR ' + total.toLocaleString('id-ID'));
+        }
+
+        // Mendapatkan nilai dari session storage
+        let country = sessionStorage.getItem('country');
+        let name = sessionStorage.getItem('name');
+        let no_tlp = sessionStorage.getItem('no_tlp');
+        let alamat = sessionStorage.getItem('alamat');
+        let kecamatan = sessionStorage.getItem('kecamatan');
+        let kode_pos = sessionStorage.getItem('kode_pos');
+        let city_origin = sessionStorage.getItem('city_origin');
+        let province_destination = sessionStorage.getItem('province_destination');
+        let city_destination = sessionStorage.getItem('city_destination');
+        let courier = sessionStorage.getItem('courier');
+        let weight = sessionStorage.getItem('weight');
     </script>
 
 @endsection

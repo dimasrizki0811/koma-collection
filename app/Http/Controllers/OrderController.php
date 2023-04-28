@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Cart;
+use App\Models\City;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Kavist\RajaOngkir\Facades\RajaOngkir;
 use App\Models\Province;
-use App\Models\City;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Kavist\RajaOngkir\Facades\RajaOngkir;
 
 
 class OrderController extends Controller
@@ -40,30 +43,49 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $order = new Order;
-        $order->country = $request->input('country');
-        $order->origin = $request->input('origin');
-        $order->name = $request->input('name');
-        $order->phone_number = $request->input('phone_number');
-        $order->address = $request->input('address');
-        $order->kecamatan = $request->input('kecamatan');
-        $order->city = $request->input('city');
-        $order->province = $request->input('province');
-        $order->destination = $request->input('destination');
-        $order->product_id = $request->input('product_id');
-        $order->user_id = $request->input('user_id');
-        $order->quantity = $request->input('quantity');
-        $order->weight = $request->input('weight');
-        $order->total = $request->input('total');
-        $order->delivery = $request->input('delivery');
-        $order->status = $request->input('status');
-        $order->save();
-        return redirect('/cekongkir')->with('success', 'Product has been added');
+        // validasi input
+        $validated = $request->validate([
+            'country' => 'required|string',
+            'name' => 'required|string|max:255',
+            'no_tlp' => 'required|string|max:20|min:8',
+            'alamat' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kode_pos' => 'required|string|max:20',
+            'city_origin' => 'required',
+            'province_destination' => 'required',
+            'city_destination' => 'required',
+            'courier' => 'required',
+        ]);
+
+        // mengambil id user yang sedang login
+        $user_id = Auth::id();
+
+        // menyimpan data order ke dalam session
+        $order = [
+            'country' => $validated['country'],
+            'name' => $validated['name'],
+            'no_tlp' => $validated['no_tlp'],
+            'alamat' => $validated['alamat'],
+            'kecamatan' => $validated['kecamatan'],
+            'kode_pos' => $validated['kode_pos'],
+            'user_id' => $user_id,
+            'city_origin' => $validated['city_origin'],
+            'province_destination' => $validated['province_destination'],
+            'city_destination' => $validated['city_destination'],
+            'courier' => $validated['courier'],
+        ];
+
+        dd($order);
+        // Session::push('orders', $order);
+
+        // redirect ke halaman lain atau melakukan operasi lain
+        return redirect()->route('orders.confirm')->with('success', 'Berhasil memasukan data !');
     }
 
     public function confirm()
     {
         $cart = session()->get('cart');
-        return view('customer.confirm', compact('cart'));
+        $produk = Product::all();
+        return view('customer.confirm', compact('cart', 'produk'));
     }
 }

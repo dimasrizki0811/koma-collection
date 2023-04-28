@@ -82,18 +82,21 @@
                         <li class="dropdown cart-nav dropdown-slide">
                             <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown"><i
                                     class="fa fa-shopping-cart"></i></a>
-                            <div class="dropdown-menu cart-dropdown">
-                                <!-- Cart Item -->
-                                <div class="media">
-                                    <a class="pull-left" href="#!">
-                                        <i class="fa fa-cart-plus"></i>
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Cart Empty<a href="#!"></a>
-                                        </h4>
-                                    </div>
-                                </div><!-- / Cart Item -->
-                            </div>
+                        <li>
+                            <a href="{{ url('/wishlist') }}" class="tf-ion-ios-heart" title="wishlist"></a>
+                        </li>
+                        <div class="dropdown-menu cart-dropdown">
+                            <!-- Cart Item -->
+                            <div class="media">
+                                <a class="pull-left" href="#!">
+                                    <i class="fa fa-cart-plus"></i>
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Cart Empty<a href="#!"></a>
+                                    </h4>
+                                </div>
+                            </div><!-- / Cart Item -->
+                        </div>
                         </li><!-- / Cart -->
 
                         <!-- Search -->

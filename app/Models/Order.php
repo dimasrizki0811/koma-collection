@@ -7,33 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = [
+    use HasFactory;
 
-        'country',
-        'origin',
+    protected $fillable = [
         'name',
-        'phone_number',
-        'address',
-        'kecamatan',
-        'city',
-        'province',
-        'destination',
-        'product_id',
-        'user_id',
-        'quantity',
-        'berat',
-        'total',
-        'delivery',
+        'email',
+        'phone',
+        'alamat',
+        'id_produk',
+        'nama_produk',
+        'jumlah',
+        'harga',
+        'size',
+        'shipping',
+        'shipping_cost',
+        'code',
+        'subtotal',
+        'totalprice',
         'status',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 }

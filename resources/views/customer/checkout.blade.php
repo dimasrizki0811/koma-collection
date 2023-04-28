@@ -19,23 +19,22 @@
                             <h4 class="widget-title">Information Details</h4>
                             <form action="" method="" class="checkout-form">
                                 <div class="form-group">
-                                    <label for="user_country">Country</label>
-                                    <input type="text" class="form-control" id="user_country" placeholder="Indonesia"
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" placeholder="Indonesia"
                                         value="Indonesia" name="country" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="full_name">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="full_name" placeholder="" name="name">
+                                    <label for="name">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="name" placeholder="" name="name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="notlp">Nomor Telepon</label>
-                                    <input type="number" class="form-control" id="notlp" placeholder=""
+                                    <label for="no_tlp">Nomor Telepon</label>
+                                    <input type="number" class="form-control" id="no_tlp" placeholder=""
                                         name="phone_number">
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_address">Alamat</label>
-                                    <input type="text" class="form-control" id="user_address" placeholder=""
-                                        name="address">
+                                    <label for="alamat">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" placeholder="" name="address">
                                 </div>
                                 <div class="checkout-country-code clearfix">
                                     <div class="form-group">
@@ -43,8 +42,8 @@
                                         <input type="text" class="form-control" id="kecamatan" name="kecamatan">
                                     </div>
                                     <div class="form-group">
-                                        <label for="postalcode">Kode Pos</label>
-                                        <input type="text" class="form-control" id="postalcode" name="destination">
+                                        <label for="kode_pos">Kode Pos</label>
+                                        <input type="text" class="form-control" id="kode_pos" name="destination">
                                     </div>
                                 </div>
                                 <input type="hidden" name="city_origin" value="151" id="city_origin">
@@ -238,7 +237,14 @@
                 e.preventDefault();
 
                 let token = $("meta[name='csrf-token']").attr("content");
+                let country = $('#country').val();
+                let name = $('#name').val();
+                let no_tlp = $('#no_tlp').val();
+                let alamat = $('#alamat').val();
+                let kecamatan = $('#kecamatan').val();
+                let kode_pos = $('#kode_pos').val();
                 let city_origin = $('#city_origin').val();
+                let province_destination = $('select[name=province_destination]').val();
                 let city_destination = $('select[name=city_destination]').val();
                 let courier = $('select[name=courier]').val();
                 let weight = $('#weight').val();
@@ -251,7 +257,14 @@
                     url: "/ongkir",
                     data: {
                         _token: token,
+                        country: country,
+                        name: name,
+                        no_tlp: no_tlp,
+                        alamat: alamat,
+                        kecamatan: kecamatan,
+                        kode_pos: kode_pos,
                         city_origin: city_origin,
+                        province_destination: province_destination,
                         city_destination: city_destination,
                         courier: courier,
                         weight: weight,
@@ -278,6 +291,21 @@
                                     ' hari)</li>');
                             });
                             localStorage.setItem('ongkirData', JSON.stringify(ongkirData));
+                            // Set session variables
+                            sessionStorage.setItem('country', country);
+                            sessionStorage.setItem('name', name);
+                            sessionStorage.setItem('no_tlp', no_tlp);
+                            sessionStorage.setItem('alamat', alamat);
+                            sessionStorage.setItem('kecamatan', kecamatan);
+                            sessionStorage.setItem('kode_pos', kode_pos);
+                            sessionStorage.setItem('city_origin', city_origin);
+                            sessionStorage.setItem('province_destination',
+                                province_destination);
+                            sessionStorage.setItem('city_destination', city_destination);
+                            sessionStorage.setItem('courier', courier);
+                            sessionStorage.setItem('weight', weight);
+
+                            console.log(response);
                             window.location.href = "/confirm";
                         }
                     }

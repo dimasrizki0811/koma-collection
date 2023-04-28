@@ -24,6 +24,9 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}" />
 
+    <!-- Tambahkan link CSS Toastr di dalam tag head -->
+    <link rel="stylesheet" href="{{ asset('toastr/build/toastr.min.css') }}">
+
     <!-- Themefisher Icon font -->
     <link rel="stylesheet" href="{{ asset('plugins/themefisher-font/style.css') }}">
     <!-- bootstrap.min css -->
@@ -86,8 +89,18 @@
                     <!-- Cart -->
                     <ul class="top-menu text-right list-inline">
                         <li class="dropdown cart-nav dropdown-slide">
-                            <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown"><i
-                                    class="fa fa-shopping-cart">{{ count((array) session('cart')) }}</i></a>
+                            @if (null !== session('cart') && count((array) session('cart')) > 0)
+                                <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown">
+                                    <i class="fa fa-shopping-cart"><span
+                                            style="font-size: 12px; color: black;">{{ count((array) session('cart')) }}</span></i>
+                                </a>
+                            @else
+                                <a href="#!" class="dropdown-toggle" data-toggle="modal" data-target="dropdown"><i
+                                        class="fa fa-shopping-cart"></i></a>
+                            @endif
+
+
+
                             <div class="dropdown-menu cart-dropdown">
                                 <!-- Cart Item -->
 
@@ -144,6 +157,9 @@
                     </ul>
                 </div>
                 </li><!-- / Cart -->
+                <li>
+                    <a href="{{ url('/wishlist') }}" title="wishlist"><i class="tf-ion-ios-heart"></i></a>
+                </li>
 
                 <!-- Search -->
                 <li class="dropdown search dropdown-slide">
@@ -221,13 +237,6 @@
                         <li class="dropdown ">
                             <a href="{{ url('/on_sale') }}">Sale</a>
                         </li>
-
-                        <!-- Shop -->
-                        <li class="dropdown ">
-                            <a href="{{ url('/shop') }}">Shop</a>
-                        </li>
-
-
                         <!-- Elements -->
                         <li class="dropdown dropdown-slide">
                             <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
@@ -240,9 +249,9 @@
                                         <ul>
                                             <li class="dropdown-header">Top Women</li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a href="shop.html">Blouse</a></li>
-                                            <li><a href="checkout.html">Tunik</a></li>
-                                            <li><a href="cart.html">Kemeja</a></li>
+                                            <li><a href="{{ url('/shop') }}">Blouse</a></li>
+                                            <li><a href="{{ url('/shop') }}">Tunik</a></li>
+                                            <li><a href="{{ url('/shop') }}">Kemeja</a></li>
                                         </ul>
                                     </div>
 
@@ -260,7 +269,6 @@
                                 </div><!-- / .row -->
                             </div><!-- / .dropdown-menu -->
                         </li><!-- / Elements -->
-
 
                         <!-- Pages -->
                         <li class="dropdown full-width dropdown-slide">
@@ -408,6 +416,8 @@ Essential Scripts
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script src="{{ asset('toastr/build/toastr.min.js') }}"></script>
 
 <!-- Main Js File -->
 <script src="{{ asset('js/script.js') }}"></script>

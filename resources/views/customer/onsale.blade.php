@@ -22,7 +22,9 @@
                     <div class="col-md-4">
                         <div class="product-item">
                             <div class="product-thumb">
-                                <span class="bage">Sale</span>
+                                @if ($data->discount == 1)
+                                    <span class="bage">Sale</span>
+                                @endif
                                 <img class="img-responsive" src="{{ asset('storage/product/' . $data->images) }}"
                                     alt="product-img" />
                                 <div class="preview-meta">
@@ -33,7 +35,20 @@
                                             </span>
                                         </li>
                                         <li>
-                                            <a href=""><i class="tf-ion-ios-heart"></i></a>
+                                            <a href="{{ route('wishlist.store', $data->id) }}" class="btn-btn"
+                                                onclick="event.preventDefault();
+                                                             if(confirm('Masukan product kedalam wishlist ?')){
+                                                               document.getElementById('store-form-{{ $data->id }}').submit();
+                                                             }">
+                                                <i class="tf-ion-ios-heart"></i>
+                                            </a>
+
+                                            <!-- Form untuk method DELETE -->
+                                            <form id="store-form-{{ $data->id }}"
+                                                action="{{ route('wishlist.store', $data->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
                                         </li>
                                         <li>
                                             <a href="{{ route('store', $data->id) }}"><i
@@ -77,7 +92,9 @@
                                                 </p>
                                                 <a href="{{ route('store', $data->id) }}" class="btn btn-main">Add
                                                     To Cart</a>
-                                                <a href="product-single.html" class="btn btn-transparent">View Product
+                                                <a href="{{ route('detail.product', $data->id) }}"
+                                                    class="btn btn-main">View
+                                                    Product
                                                     Details</a>
                                             </div>
                                         </div>
