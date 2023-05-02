@@ -63,6 +63,7 @@ class CartController extends Controller
     public function showCart()
     {
         $cart = session()->get('cart');
+        // dd(session()->all());
         return view('customer.cart', compact('cart'));
     }
 

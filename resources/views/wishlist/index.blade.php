@@ -38,17 +38,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $total = 0;
-                                            $totalQuantity = 0;
-                                            $totalWeight = 0;
-                                        @endphp
                                         @foreach ($wishlists as $details)
-                                            @php
-                                                $total += $details->price * $details->quantity;
-                                                $totalQuantity += $details->quanity;
-                                                $totalWeight += $details->berat * $details->quantity;
-                                            @endphp
                                             <tr class="">
                                                 <td class="">
                                                     <div class="product-info">
@@ -91,11 +81,11 @@
                                             <td>
                                                 <h4>Total</h4>
                                             </td>
-                                            <td>{{ $totalQuantity }} Pcs</td>
+                                            <td>{{ $sumTotal['quantity'] }} Pcs</td>
                                             <td>
-                                                IDR {{ number_format($total) }}
+                                                IDR {{ number_format($sumTotal['price']) }}
                                             </td>
-                                            <td>{{ number_format($totalWeight) }} Gram</td>
+                                            <td>{{ number_format($sumTotal['berat']) }} Gram</td>
                                         </tr>
                                     </tfoot>
                                 </table>

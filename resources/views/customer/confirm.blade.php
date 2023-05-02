@@ -5,16 +5,6 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center mb-5">Checkout Page</h2>
-                <?php
-                session_start();
-                
-                if (isset($_SESSION['myData'])) {
-                    $myData = json_decode($_SESSION['myData'], true);
-                    echo 'Data saya: ' . $myData['name'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
-                } else {
-                    echo 'Data tidak tersedia';
-                }
-                ?>
 
                 <div class="col-md-7">
                     <div class="block billing-details">
@@ -30,7 +20,7 @@
                             <div class="form-group">
                                 <label for="shipto">Ship to</label>
                                 <input type="text" class="form-control" id="shipto" name="shipto"
-                                    value="{{ Auth::user()->address }}">
+                                    value="{{ $orders['alamat'] . ' , Kec.' . $orders['kecamatan'] . ' Kota ' . $city->name . ', ' . $province->name . ' ' . $orders['kode_pos'] }}">
                             </div>
                             <p style="color: red">*Cek kembali data anda</p>
 
@@ -38,9 +28,14 @@
                     <div class="card d-none ongkir" style="margin-top: 30px">
                         <h4>Choose Shipping Method</h4>
                         <div class="card-body">
-                            <ul class="list-group">
-                                <div for="" id="ongkir"></div>
-                            </ul>
+                            @foreach ($ongkir as $ship)
+                                <div class="input-group">
+                                    <input type="radio" aria-label="..." name="expedisi"
+                                        value="{{ $ship['cost'][0]['value'] }}" id="ongkir">
+                                    {{ Str::upper($orders['courier']) }} {{ $ship['service'] }} |
+                                    {{ $ship['cost'][0]['value'] }}
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -130,19 +125,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
-        // mengambil data hitung ongkir dari halaman sebelumnya yaitu checkout //
-        let ongkirData = JSON.parse(localStorage.getItem('ongkirData'));
-        if (ongkirData) {
-            for (let i = 0; i < ongkirData.length; i++) {
-                $('#ongkir').append('<input type="radio" name="shipping" onchange="calculateTotal()" value="' + ongkirData[
-                        i]
-                    .cost +
-                    '" data-cost="' + ongkirData[i].cost + '" class="list-group-item">' + ongkirData[i].code +
-                    ' : <strong>' + ongkirData[i].service + '</strong> - Rp. ' + ongkirData[i].cost + ' (' + ongkirData[
-                        i].etd + ' hari)');
-            }
-        }
+        document.getElementById("ongkir").addEventListener("click", ongkir);
 
+        function ongkir() {
+            let hargaOngkir = document.getElementById('ongkir').value;
+            document.getElementById('shippingCost').innerHTML = hargaOngkir;
+        }
         // mengambil data shipping dan memasukan kedalam form //
         function get() {
             let selectedCost = $('input[name="shipping_cost"]:checked').data('cost');
@@ -159,19 +147,6 @@
             $('#shippingCost').text('IDR ' + shippingCost.toLocaleString('id-ID'));
             $('#totalPrice').text('IDR ' + total.toLocaleString('id-ID'));
         }
-
-        // Mendapatkan nilai dari session storage
-        let country = sessionStorage.getItem('country');
-        let name = sessionStorage.getItem('name');
-        let no_tlp = sessionStorage.getItem('no_tlp');
-        let alamat = sessionStorage.getItem('alamat');
-        let kecamatan = sessionStorage.getItem('kecamatan');
-        let kode_pos = sessionStorage.getItem('kode_pos');
-        let city_origin = sessionStorage.getItem('city_origin');
-        let province_destination = sessionStorage.getItem('province_destination');
-        let city_destination = sessionStorage.getItem('city_destination');
-        let courier = sessionStorage.getItem('courier');
-        let weight = sessionStorage.getItem('weight');
     </script>
 
 @endsection

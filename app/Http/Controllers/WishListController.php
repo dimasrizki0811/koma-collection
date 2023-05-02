@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\WishList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\CssSelector\Parser\Handler\WhitespaceHandler;
 
 class WishlistController extends Controller
 {
@@ -18,7 +19,9 @@ class WishlistController extends Controller
     {
         $user_id = auth()->user()->id; // Mendapatkan ID user yang sedang login
         $wishlists = Wishlist::where('user_id', $user_id)->get(); // Menampilkan wishlist berdasarkan ID user yang sedang login
-        return view('wishlist.index', compact('wishlists'));
+        $sumTotal = WishList::QuantityWhislist($user_id);
+        // dd($total);
+        return view('wishlist.index', compact('wishlists', 'sumTotal'));
     }
 
 

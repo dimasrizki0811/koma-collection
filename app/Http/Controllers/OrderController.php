@@ -30,19 +30,17 @@ class OrderController extends Controller
         $city = City::where('province_id', $id)->pluck('name', 'city_id');
         return response()->json($city);
     }
-    public function check_ongkir(Request $request)
-    {
-        $cost = RajaOngkir::ongkosKirim([
-            'origin'        => $request->city_origin, // ID kota/kabupaten asal
-            'destination'   => $request->city_destination, // ID kota/kabupaten tujuan
-            'weight'        => $request->weight, // berat barang dalam gram
-            'courier'       => $request->courier // kode kurir pengiriman: ['jne', 'tiki', 'pos'] untuk starter
-        ])->get();
-        return response()->json($cost);
-    }
+    // public function check_ongkir(Request $request)
+    // {
+
+
+    //     dd($cost);
+    //     return response()->json($cost);
+    // }
 
     public function store(Request $request)
     {
+
         // validasi input
         $validated = $request->validate([
             'country' => 'required|string',
@@ -56,9 +54,12 @@ class OrderController extends Controller
             'city_destination' => 'required',
             'courier' => 'required',
         ]);
-
-        // mengambil id user yang sedang login
-        $user_id = Auth::id();
+        $cost = RajaOngkir::ongkosKirim([
+            'origin'        => $request->city_origin, // ID kota/kabupaten asal
+            'destination'   => $request->city_destination, // ID kota/kabupaten tujuan
+            'weight'        => $request->weight, // berat barang dalam gram
+            'courier'       => $request->courier // kode kurir pengiriman: ['jne', 'tiki', 'pos'] untuk starter
+        ])->get();
 
         // menyimpan data order ke dalam session
         $order = [
@@ -68,15 +69,14 @@ class OrderController extends Controller
             'alamat' => $validated['alamat'],
             'kecamatan' => $validated['kecamatan'],
             'kode_pos' => $validated['kode_pos'],
-            'user_id' => $user_id,
+            'user_id' => Auth::id(),
             'city_origin' => $validated['city_origin'],
             'province_destination' => $validated['province_destination'],
             'city_destination' => $validated['city_destination'],
             'courier' => $validated['courier'],
+            'cost'     => $cost,
         ];
-
-        dd($order);
-        // Session::push('orders', $order);
+        session()->put('order', $order);
 
         // redirect ke halaman lain atau melakukan operasi lain
         return redirect()->route('orders.confirm')->with('success', 'Berhasil memasukan data !');
@@ -85,7 +85,12 @@ class OrderController extends Controller
     public function confirm()
     {
         $cart = session()->get('cart');
+        $orders = session()->get('order');
+        $ongkir = $orders['cost'][0]['costs'];
+        // dd($orders);
+        $province = Province::find($orders['province_destination']);
+        $city = City::where('city_id', $orders['city_destination'])->get()[0];
         $produk = Product::all();
-        return view('customer.confirm', compact('cart', 'produk'));
+        return view('customer.confirm', compact('cart', 'produk', 'orders', 'city', 'province', 'ongkir'));
     }
 }
