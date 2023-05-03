@@ -5,17 +5,6 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center mb-5">Checkout Page</h2>
-                <?php
-                session_start();
-                
-                if (isset($_SESSION['myData'])) {
-                    $myData = json_decode($_SESSION['myData'], true);
-                    echo 'Data saya: ' . $myData['name'] . ', ' . $myData['alamat'] . ', ' . $myData['no_tlp'];
-                } else {
-                    echo 'Data tidak tersedia';
-                }
-                ?>
-
                 <div class="col-md-7">
                     <div class="block billing-details">
                         <h4 class="widget-title">Information Details</h4>

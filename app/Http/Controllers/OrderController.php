@@ -57,6 +57,13 @@ class OrderController extends Controller
             'courier' => 'required',
         ]);
 
+        $cost = RajaOngkir::ongkosKirim([
+            'origin'        => $request->city_origin, // ID kota/kabupaten asal
+            'destination'   => $request->city_destination, // ID kota/kabupaten tujuan
+            'weight'        => $request->weight, // berat barang dalam gram
+            'courier'       => $request->courier // kode kurir pengiriman: ['jne', 'tiki', 'pos'] untuk starter
+        ])->get();
+
         // mengambil id user yang sedang login
         $user_id = Auth::id();
 
@@ -73,10 +80,10 @@ class OrderController extends Controller
             'province_destination' => $validated['province_destination'],
             'city_destination' => $validated['city_destination'],
             'courier' => $validated['courier'],
+            'cost' => $cost,
         ];
 
-        dd($order);
-        // Session::push('orders', $order);
+        session()->put('order', $order);
 
         // redirect ke halaman lain atau melakukan operasi lain
         return redirect()->route('orders.confirm')->with('success', 'Berhasil memasukan data !');
@@ -85,6 +92,7 @@ class OrderController extends Controller
     public function confirm()
     {
         $cart = session()->get('cart');
+        dd(session()->get('order'));
         $produk = Product::all();
         return view('customer.confirm', compact('cart', 'produk'));
     }

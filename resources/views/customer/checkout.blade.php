@@ -17,7 +17,7 @@
                         @endif
                         <div class="block billing-details">
                             <h4 class="widget-title">Information Details</h4>
-                            <form action="" method="" class="checkout-form">
+                            <form action="{{ route('orders.store') }}" method="POST" class="checkout-form">
                                 <div class="form-group">
                                     <label for="country">Country</label>
                                     <input type="text" class="form-control" id="country" placeholder="Indonesia"
@@ -29,12 +29,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="no_tlp">Nomor Telepon</label>
-                                    <input type="number" class="form-control" id="no_tlp" placeholder=""
-                                        name="phone_number">
+                                    <input type="number" class="form-control" id="no_tlp" placeholder="" name="no_tlp">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat" placeholder="" name="address">
+                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat">
                                 </div>
                                 <div class="checkout-country-code clearfix">
                                     <div class="form-group">
@@ -43,7 +42,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kode_pos">Kode Pos</label>
-                                        <input type="text" class="form-control" id="kode_pos" name="destination">
+                                        <input type="text" class="form-control" id="kode_pos" name="kode_pos">
                                     </div>
                                 </div>
                                 <input type="hidden" name="city_origin" value="151" id="city_origin">
