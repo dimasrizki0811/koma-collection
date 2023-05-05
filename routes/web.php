@@ -64,7 +64,6 @@ Route::group(['middleware' => ['auth', 'level:user']], function () {
     Route::get('/checkout', [OrderController::class, 'index'])->name('customer.checkout');
     Route::post('/add_order', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/checkout/{province_id}', [OrderController::class, 'getCities']);
-    Route::post('/ongkir', [OrderController::class, 'check_ongkir'])->name('ongkir');
     Route::get('/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
     Route::get('/detail_product/{id}', [HomeController::class, 'details'])->name('detail.product');
     Route::post('/checkout', [OrderController::class, 'store'])->name('store.checkout');
