@@ -5,7 +5,6 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center mb-5">Checkout Page</h2>
-
                 <div class="col-md-7">
                     <div class="block billing-details">
                         <h4 class="widget-title">Information Details</h4>

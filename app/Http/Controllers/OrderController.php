@@ -30,13 +30,6 @@ class OrderController extends Controller
         $city = City::where('province_id', $id)->pluck('name', 'city_id');
         return response()->json($city);
     }
-    // public function check_ongkir(Request $request)
-    // {
-
-
-    //     dd($cost);
-    //     return response()->json($cost);
-    // }
 
     public function store(Request $request)
     {
